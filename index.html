@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comparison Sheet</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2333;
+    --border: #2a3048;
+    --accent: #4f8ef7;
+    --accent2: #38d9a9;
+    --text: #e8ecf4;
+    --muted: #7a8499;
+    --badge-bg: #1a2540;
+    --badge-border: #2e4080;
+    --font-head: 'Syne', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-head);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrapper {
+    position: relative; z-index: 1;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0 13px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .brand {
+    display: flex; align-items: center; gap: 11px;
+  }
+  .brand-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; color: #fff; letter-spacing: -0.5px;
+  }
+  .brand-title { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
+  .brand-sub   { font-size: 10px; color: var(--muted); font-family: var(--font-mono); margin-top: 1px; }
+
+  /* CS Number */
+  .cs-badge {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    border-radius: 10px;
+    padding: 9px 18px;
+    position: relative; overflow: hidden;
+  }
+  .cs-badge::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    border-radius: 10px 0 0 10px;
+  }
+  .cs-label {
+    font-size: 9px; font-family: var(--font-mono);
+    color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+  }
+  .cs-num {
+    display: flex; align-items: center;
+  }
+  .cp { font-family: var(--font-mono); font-size: 21px; font-weight: 600; }
+  .cs { font-family: var(--font-mono); font-size: 21px; color: var(--muted); padding: 0 1px; }
+  .c0 { color: var(--accent2); }
+  .c1,.c2,.c3 { color: var(--accent); }
+  .c4 { color: #f0a500; }
+  .cs-time { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+  .copy-btn {
+    background: none; border: none; color: var(--muted);
+    cursor: pointer; padding: 4px; border-radius: 4px;
+    transition: color 0.2s; flex-shrink: 0;
+  }
+  .copy-btn:hover { color: var(--accent2); }
+
+  /* Download button */
+  .btn-dl {
+    display: flex; align-items: center; gap: 7px;
+    background: linear-gradient(135deg, var(--accent), #3a7ff0);
+    color: #fff; border: none;
+    font-family: var(--font-head); font-size: 13px; font-weight: 700;
+    padding: 9px 20px; border-radius: 8px; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(79,142,247,0.3);
+    transition: opacity 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .btn-dl:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-dl:active { transform: none; }
+
+  /* ── LOOKER WRAP (fills remaining height) ── */
+  .looker-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .chrome {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+    flex-shrink: 0;
+  }
+  .dots { display: flex; gap: 5px; }
+  .dots span { width: 9px; height: 9px; border-radius: 50%; }
+  .dr { background: #f06565; }
+  .dy { background: #f0a500; }
+  .dg { background: var(--accent2); }
+  .chrome-mid {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.5px;
+  }
+  .live {
+    display: flex; align-items: center; gap: 5px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--accent2);
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent2); animation: blink 2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* URL placeholder */
+  .ph {
+    flex: 1;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 14px; padding: 40px 20px;
+    color: var(--muted); font-family: var(--font-mono);
+    font-size: 13px; text-align: center;
+  }
+  .ph-icon { font-size: 36px; opacity: 0.4; }
+  .url-row { display: flex; gap: 8px; width: 100%; max-width: 540px; }
+  .url-in {
+    flex: 1; background: var(--surface2);
+    border: 1px solid var(--border); color: var(--text);
+    font-family: var(--font-mono); font-size: 12px;
+    padding: 9px 13px; border-radius: 8px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .url-in:focus { border-color: var(--accent); }
+  .btn-load {
+    background: var(--accent); color: #fff; border: none;
+    font-family: var(--font-head); font-size: 12px; font-weight: 700;
+    padding: 9px 18px; border-radius: 8px; cursor: pointer;
+    white-space: nowrap;
+  }
+  .ph-hint { font-size: 11px; color: var(--muted); max-width: 440px; line-height: 1.7; }
+  .ph-hint code {
+    background: var(--surface2); padding: 1px 5px;
+    border-radius: 4px; font-size: 11px; color: var(--accent);
+  }
+
+  /* iFrame */
+  #frame {
+    flex: 1;
+    width: 100%; border: none;
+    display: none; min-height: 0;
+  }
+
+  /* ── MODAL ── */
+  .overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.72);
+    z-index: 200; display: none;
+    align-items: center; justify-content: center;
+  }
+  .overlay.open { display: flex; }
+  .modal {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px; max-width: 390px; width: 90%;
+    animation: pop 0.2s ease;
+  }
+  @keyframes pop {
+    from { opacity:0; transform:scale(0.94) translateY(8px); }
+    to   { opacity:1; transform:scale(1) translateY(0); }
+  }
+  .modal h2 { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+  .modal-cs {
+    font-family: var(--font-mono); font-size: 22px; font-weight: 600;
+    color: var(--accent); text-align: center;
+    padding: 12px; margin: 14px 0;
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    border-radius: 8px; letter-spacing: 1px;
+  }
+  .modal p { font-size: 12px; color: var(--muted); font-family: var(--font-mono); margin-bottom: 18px; line-height: 1.7; }
+  .modal-btns { display: flex; flex-direction: column; gap: 9px; }
+  .btn-pdf {
+    background: linear-gradient(135deg, var(--accent), #3a7ff0);
+    color: #fff; border: none;
+    font-family: var(--font-head); font-size: 14px; font-weight: 700;
+    padding: 11px; border-radius: 8px; cursor: pointer; width: 100%;
+  }
+  .btn-cancel {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-family: var(--font-head); font-size: 13px;
+    padding: 10px; border-radius: 8px; cursor: pointer; width: 100%;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-cancel:hover { border-color: var(--muted); color: var(--text); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 22px; right: 22px;
+    background: var(--surface2); border: 1px solid var(--accent2);
+    color: var(--accent2); font-family: var(--font-mono); font-size: 12px;
+    padding: 9px 16px; border-radius: 8px;
+    opacity: 0; transform: translateY(6px);
+    transition: all 0.28s; pointer-events: none; z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── PRINT ── */
+  @media print {
+    @page {
+      size: A3 landscape;
+      margin: 6mm 5mm;
+    }
+
+    html, body {
+      width: 100% !important;
+      height: auto !important;
+      overflow: visible !important;
+      background: #fff !important;
+    }
+
+    body::before { display: none; }
+
+    .wrapper {
+      max-width: 100% !important;
+      width: 100% !important;
+      height: auto !important;
+      padding: 0 !important;
+      display: block !important;
+    }
+
+    .header {
+      display: flex !important;
+      border-bottom: 2px solid #000;
+      margin-bottom: 6px;
+      padding: 6px 0;
+    }
+
+    .chrome    { display: none !important; }
+    .btn-dl    { display: none !important; }
+    .copy-btn  { display: none !important; }
+
+    .brand-icon {
+      background: #000 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .brand-title { color: #000 !important; }
+    .brand-sub   { color: #555 !important; }
+
+    .cs-badge {
+      background: #f0f0f0 !important;
+      border: 1px solid #ccc !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .cp  { color: #000 !important; }
+    .cs  { color: #555 !important; }
+    .c0  { color: #1a6e4f !important; }
+    .c1, .c2, .c3 { color: #1a3a8f !important; }
+    .c4  { color: #a07000 !important; }
+    .cs-label, .cs-time { color: #555 !important; }
+
+    .looker-wrap {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      border: none !important;
+      border-radius: 0 !important;
+      display: block !important;
+      overflow: visible !important;
+    }
+
+    #frame {
+      display: block !important;
+      width: 1500px !important;
+      height: 900px !important;
+      border: none !important;
+      transform-origin: top left !important;
+      transform: scale(0.82) !important;
+    }
+
+    .ph { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <div class="brand">
+      <div class="brand-icon">CS</div>
+      <div>
+        <div class="brand-title">Comparison Sheet</div>
+        <div class="brand-sub">Procurement Dashboard</div>
+      </div>
+    </div>
+
+    <div class="cs-badge">
+      <div>
+        <div class="cs-label">Comparison Sheet No.</div>
+        <div class="cs-num">
+          <span class="cp c0">C</span>
+          <span class="cs">/</span>
+          <span class="cp c1" id="d">--</span>
+          <span class="cs">/</span>
+          <span class="cp c2" id="m">--</span>
+          <span class="cs">/</span>
+          <span class="cp c3" id="y">--</span>
+          <span class="cs">/</span>
+          <span class="cp c4" id="s">--</span>
+        </div>
+        <div class="cs-time" id="t"></div>
+      </div>
+      <button class="copy-btn" onclick="copyCS()" title="Copy CS number">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/>
+          <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="btn-dl" onclick="openModal()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download PDF
+    </button>
+  </div>
+
+  <!-- LOOKER EMBED -->
+  <div class="looker-wrap">
+    <div class="chrome">
+      <div class="dots"><span class="dr"></span><span class="dy"></span><span class="dg"></span></div>
+      <div class="chrome-mid">LOOKER STUDIO — COMPARISON SHEET</div>
+      <div class="live"><span class="live-dot"></span>Live</div>
+    </div>
+
+    <div class="ph" id="ph">
+      <div class="ph-icon">📊</div>
+      <div>Paste your Looker Studio embed URL to load the dashboard</div>
+      <div class="url-row">
+        <input class="url-in" id="urlIn" type="text"
+          placeholder="https://lookerstudio.google.com/embed/reporting/…"/>
+        <button class="btn-load" onclick="load()">Load</button>
+      </div>
+      <div class="ph-hint">
+        In Looker Studio → <strong>Share</strong> → <strong>Embed report</strong> →
+        copy the URL from the <code>src="…"</code> part of the embed code.
+        <br/>Your existing dropdowns (Item Name, I.N, Vendor Name) will work normally inside the embed.
+      </div>
+    </div>
+
+    <iframe id="frame"
+      allowfullscreen
+      sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation">
+    </iframe>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <h2>Download Comparison Sheet</h2>
+    <div class="modal-cs" id="mcs"></div>
+    <p>The CS number will appear on your printed PDF.<br/>
+       In the print dialog choose <em>Save as PDF</em> as the destination.</p>
+    <div class="modal-btns">
+      <button class="btn-pdf" onclick="doPrint()">⬇&nbsp; Download as PDF</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ── CS NUMBER ─────────────────────────────── */
+  let csNum = '';
+  const pad = n => String(n).padStart(2,'0');
+
+  (function init(){
+    const now = new Date();
+    const dd  = pad(now.getDate());
+    const mm  = pad(now.getMonth()+1);
+    const yy  = String(now.getFullYear()).slice(-2);
+    const key = `cs_${dd}${mm}${yy}`;
+    const seq = (parseInt(localStorage.getItem(key)||'0')) + 1;
+    localStorage.setItem(key, seq);
+    csNum = `C/${dd}/${mm}/${yy}/${pad(seq)}`;
+
+    document.getElementById('d').textContent = dd;
+    document.getElementById('m').textContent = mm;
+    document.getElementById('y').textContent = yy;
+    document.getElementById('s').textContent = pad(seq);
+    const ts = now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    document.getElementById('t').textContent = `Generated at ${ts}`;
+  })();
+
+  function copyCS(){
+    navigator.clipboard.writeText(csNum).then(()=> showToast('Copied: '+csNum));
+  }
+
+  /* ── LOOKER EMBED ──────────────────────────── */
+  function toEmbedURL(url){
+    return url.includes('/embed/') ? url : url.replace('/reporting/','/embed/reporting/');
+  }
+
+  function showFrame(url){
+    document.getElementById('ph').style.display    = 'none';
+    const f = document.getElementById('frame');
+    f.src   = toEmbedURL(url);
+    f.style.display = 'block';
+  }
+
+  function load(){
+    const url = document.getElementById('urlIn').value.trim();
+    if(!url){ showToast('Please enter a URL'); return; }
+    sessionStorage.setItem('lk_url', url);
+    showFrame(url);
+    showToast('Dashboard loaded ✓');
+  }
+
+  // Hardcoded Looker Studio URL — loads automatically on open
+  const LOOKER_URL = 'https://lookerstudio.google.com/embed/reporting/e11d03e5-5e4b-4740-8ad8-e92621981e0b/page/page_12345';
+  document.getElementById('urlIn').value = LOOKER_URL;
+  showFrame(LOOKER_URL);
+
+  // Also restore any manually changed URL from session
+  const saved = sessionStorage.getItem('lk_url');
+  if(saved && saved !== LOOKER_URL){
+    document.getElementById('urlIn').value = saved;
+    showFrame(saved);
+  }
+
+  // Enter key triggers load
+  document.getElementById('urlIn').addEventListener('keydown', e=>{
+    if(e.key==='Enter') load();
+  });
+
+  /* ── MODAL ─────────────────────────────────── */
+  function openModal(){
+    document.getElementById('mcs').textContent = csNum;
+    document.getElementById('modal').classList.add('open');
+  }
+  function closeModal(){
+    document.getElementById('modal').classList.remove('open');
+  }
+  document.getElementById('modal').addEventListener('click', e=>{
+    if(e.target.id==='modal') closeModal();
+  });
+  function doPrint(){
+    closeModal();
+    showToast('Opening print dialog\u2026');
+
+    // Dynamically inject scale so iframe (1500px wide) fits A3 landscape print width
+    const styleTag = document.getElementById('dynPrintStyle') || (() => {
+      const s = document.createElement('style');
+      s.id = 'dynPrintStyle';
+      document.head.appendChild(s);
+      return s;
+    })();
+
+    // A3 landscape printable width = 420mm - 10mm margins = 410mm ≈ 1559px @96dpi
+    // Our iframe is 1500px wide => scale = 1559/1500 ≈ 1.039, clamp to 1
+    // To ensure Net Amount fits, we use 0.95 to give extra breathing room
+    const scale = 0.95;
+    styleTag.textContent = `@media print { #frame { transform: scale(${scale}) !important; transform-origin: top left !important; width: 1580px !important; height: 950px !important; } }`;
+
+    setTimeout(() => window.print(), 400);
+  }
+
+  /* ── TOAST ─────────────────────────────────── */
+  function showToast(msg){
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(()=> el.classList.remove('show'), 2500);
+  }
+</script>
+</body>
+</html>
